@@ -123,7 +123,7 @@ int main() {
 
 	std::cout << "Hash table in order of hash key:\n\n";
 	for(int i = 0; i < hashTable->getSize(); i++) {
-		// prints out hash keys in order of hash number
+		// prints out hash keys in chronological order of insertion
 		std::cout << "Hash key: " << i << " String: " << hashTable->getString(i) << "\n";
 	}
 
