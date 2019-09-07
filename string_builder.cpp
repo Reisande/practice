@@ -1,5 +1,8 @@
 #include <string>
 #include <vector>
+#include <iostream>
+
+#include "utils.h"
 
 // simple data structure. Simply takes a series of strings, and returns a final
 // concatenated string when needed. This turns concatenation n string from an
@@ -10,18 +13,17 @@ private:
 	std::string recursiveStringConvert(int count);
 
 public:
-	StringBuilder(std::string initString);
+	StringBuilder();
 	std::string toString();
 	void append(std::string newString);
 	
 };
 
-StringBuilder::StringBuilder(std::string initString) {
-	strings[0] = initString;
+StringBuilder::StringBuilder() {
 }
 
 std::string StringBuilder::recursiveStringConvert(int count) {
-	// bsae case of the recursive call
+	// base case of the recursive call
 	if(count >= strings.size()) {
 		return "";
 	}
@@ -39,5 +41,22 @@ void StringBuilder::append(std::string newString) {
 }
 
 int main() {
+	srand(time(0)); 
+	StringBuilder *stringBuilder = new StringBuilder();
+
+	int numStrings;
+	
+	std::cout << "Type how many random strings you want to append together: ";
+	std::cin >> numStrings;
+	
+	for(int i = 0; i < numStrings; i++) {
+		std::string newRandomString = getRandomString();
+		std::cout << newRandomString << " ";
+
+		stringBuilder->append(newRandomString);
+	}
+
+	std::cout << "\n\n" << stringBuilder->toString() << "\n\n";
+	
 	return 0;
 }

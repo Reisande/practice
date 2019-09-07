@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 #include <math.h>
-#include <stdlib.h>
+
+#include "utils.h"
 
 class HashTable {
 private:
@@ -86,19 +87,9 @@ std::string HashTable::getString(const unsigned long int hash) {
 	return table[hash];
 }
 
-// creates a random string of length 8(ascii 97-122). This is just for testing purposes
-std::string randomString() {
-	std::string returnString = "";
-	std::string alphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-	for(int i = 0; i < 8; i++) {
-		returnString += alphabet.at(rand() % 52);
-	}
-	return returnString;
-}
-
 int main() {
-	// used for random string generation
 	srand(time(0)); 
+	// used for random string generation
 
 	HashTable *hashTable = new HashTable();
 
@@ -115,7 +106,7 @@ int main() {
 	std::vector<long unsigned int> hashKeys;
 	// build a bunch of random strings and inserts them into the hashtable
 	for(int i = 0; i < 42; i++) {
-		std::string insertString = randomString();
+		std::string insertString = getRandomString();
 		long unsigned int randomPosition = (hashTable->insertString(insertString));
 		std::cout << "inserting: " << insertString << " at " << randomPosition << "\n";
 	  hashKeys.emplace_back(randomPosition);
