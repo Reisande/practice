@@ -48,12 +48,16 @@ int HashTable::getSize() {
 
 void HashTable::setSize(const int newSize) {
 	std::cout << "Resizing hashtable from " << maxSize << " to " << newSize << "\n";
+
 	HashTable *newTable = new HashTable(newSize);
+
 	// TODO: create a copy constructor and just call that
   for(int i = 0; i < maxSize; i++) {
 		newTable->insertString(table[i]);
 	}
+	
 	delete []table;
+
 	maxSize = newSize;
 	table = newTable->table;
 }
@@ -104,10 +108,17 @@ private:
 	int numStrings;
 	
 public:
-	unsigned long int insertString(const std::string key);
+	struct ReturnHash {
+		long unsigned int hash;
+		long unsigned int numInHash;
+
+		ReturnHash(long unsigned int aHash, long unsigned int aNumInHash) :
+			hash(aHash), numInHash(aNumInHash) {}
+	};
+  ReturnHash *insertString(const std::string key);
 	int getSize();
 	void setSize(const int size); // really just a resize function
-	std::string getString(const unsigned long int hash);
+	std::string getString(const ReturnHash *argHash);
 	AHashTable();
 	AHashTable(const int size);
 
@@ -122,12 +133,13 @@ AHashTable::AHashTable(const int size) {
 	maxSize = size;
 	table = new Node *[maxSize];
 }
-unsigned long int AHashTable::insertString(const std::string key) {
+
+AHashTable::ReturnHash *AHashTable::insertString(const std::string key) {
 	unsigned long int hashValue = 0;
 
 	if(key == "") {
 		std::cout << "Unable to insert empty string\n";
-		return -1;
+		return nullptr;
 	}
 	
 	if(numStrings >= maxSize / 2) {
@@ -145,17 +157,20 @@ unsigned long int AHashTable::insertString(const std::string key) {
 	hashValue %= maxSize;
 
 	Node *current = table[hashValue];
-	
+
+	long unsigned int numInHash = 0;
 	while(current->next != nullptr) {
 		current = current->next;
+		numInHash++;
 	}
 
 	Node *insertVal = new Node(key, nullptr);
 	current->next = insertVal;
-
+ 
 	numStrings++;
+	ReturnHash *returnHash = new ReturnHash(hashValue, numInHash);
 	
-	return hashValue;
+	return returnHash;
 }
 
 int AHashTable::getSize() {
@@ -163,13 +178,31 @@ int AHashTable::getSize() {
 }
 
 // really just a resize function
-void AHashTable::setSize(const int size) {
+void AHashTable::setSize(const int newSize) {
+	std::cout << "Resizing hashtable from " << maxSize << " to " << newSize << "\n";
+
+	AHashTable *newTable = new AHashTable(newSize);
+
+	// TODO: create a copy constructor and just call that
+  for(int i = 0; i < maxSize; i++) {
+		newTable->insertString(table[i]->val);
+	}
+	
+	delete []table;
+
+	maxSize = newSize;
+	table = newTable->table;
 
 }
 
-std::string AHashTable::getString(const unsigned long int hash) {
+std::string AHashTable::getString(const ReturnHash *argHash) {
+	Node *returnNode = table[argHash->hash];
 
-	return "";
+	for(int i = 0; i < argHash->numInHash; i++) {
+		returnNode = returnNode->next;
+	}
+	
+	return returnNode->val;
 }
 
 int main() {
