@@ -188,6 +188,7 @@ public:
 
 	void push(int newValue) {
 		// emplace back is just in case I want to come back and make this polymorphic
+		length++;
 		queue.emplace_back(newValue);
 	}
 
@@ -242,15 +243,85 @@ public:
 // array based queue
 class AQueue {
 private:
-
-
+	int length;
+	int capacity;
+	int *queue;
+	
 public:
-	void push(int newValue) { }
-	int pop() { return 0; }
-	int top() { return 0; }
-	int bottom() { return 0; }
-	int size() { return 0; }
-	bool isEmpty() { return true; }
+	AQueue() {
+		length = 0;
+		capacity = 10;
+		queue = new int[10];
+	}
+	
+	void push(int newValue) {
+		if(length == capacity) {
+			capacity *= 2;
+			int *temp = new int[capacity];
+			for(int i = 0; i < length; i++) {
+				temp[i] = queue[i];
+			}
+			delete []queue;
+			queue = temp;
+		}
+
+		queue[length] = newValue;
+
+		length++;
+	}
+
+	int pop() {
+		if(length == 0) {
+			std::cout << "Queue is empty, no value to pop\n";
+			return -1;
+		}
+		else {
+			length--;
+			int returnVal = queue[length];
+
+			// downsizes array to save space
+			if(length == (capacity / 4) && capacity > 10) {
+				capacity /= 2;
+
+				int temp[capacity];
+
+				for(int i = 0; i < length; i++) {
+					temp[i] = queue[i];
+				}
+			
+				delete[] queue;
+				queue = temp;
+			}
+							 
+			return returnVal;
+		}
+	}
+
+	int top() {
+		if(length == 0) {
+			std::cout << "List is empty, no value to return\n";
+		}
+		else {
+			return queue[0];
+		}
+	}
+
+	int bottom() {
+		if(length == 0) {
+			std::cout << "List is empty, no value to return\n";
+		}
+		else {
+			return queue[length - 1];
+		}
+	}
+
+	int size() {
+		return length;
+	}
+
+	bool isEmpty() {
+		return (length == 0);
+	}
 			
 };
 
