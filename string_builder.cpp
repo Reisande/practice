@@ -10,7 +10,7 @@
 class StringBuilder {
 private:
 	std::vector<std::string> strings;
-	std::string recursiveStringConvert(int count);
+	std::string recursiveStringConvert(int count, std::string accumulator);
 
 public:
 	StringBuilder();
@@ -22,18 +22,18 @@ public:
 StringBuilder::StringBuilder() {
 }
 
-std::string StringBuilder::recursiveStringConvert(int count) {
+std::string StringBuilder::recursiveStringConvert(int count, std::string accumulator) {
 	// base case of the recursive call
 	if(count >= strings.size()) {
-		return "";
+		return accumulator;
 	}
 	else {
-		return strings[count] + recursiveStringConvert(count + 1);
+		return recursiveStringConvert(count + 1, accumulator + strings[count]);
 	}
 }
 
 std::string StringBuilder::toString() {
-	return recursiveStringConvert(0);
+	return recursiveStringConvert(0, "");
 }
 
 void StringBuilder::append(std::string newString) {
