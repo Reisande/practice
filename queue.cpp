@@ -257,11 +257,15 @@ public:
 	void push(int newValue) {
 		if(length == capacity) {
 			capacity *= 2;
-			int *temp = new int[capacity];
+
+			int temp[capacity];
+
 			for(int i = 0; i < length; i++) {
 				temp[i] = queue[i];
 			}
+
 			delete []queue;
+
 			queue = temp;
 		}
 
