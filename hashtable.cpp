@@ -5,6 +5,7 @@
 
 #include "utils.h"
 
+// Linear hash table implementation table 
 class HashTable {
 private:
 	int maxSize;
@@ -23,7 +24,9 @@ public:
 HashTable::HashTable() {
 	numStrings = 0;
 	maxSize = 83; // this is just a generic prime
+
 	table = new std::string[maxSize];
+
 	for(int i = 0; i < maxSize; i++) {
 		table[i] = "";
 	}
@@ -85,6 +88,88 @@ unsigned long int HashTable::insertString(const std::string key) {
 
 std::string HashTable::getString(const unsigned long int hash) {
 	return table[hash];
+}
+
+// array of linked list hash table implementation
+class AHashTable {
+private:
+	struct Node {
+		std::string val;
+		Node *next;
+
+		Node(std::string aVal, Node *aNext) : val(aVal), next(aNext) {};
+	};
+	int maxSize;
+  Node **table;
+	int numStrings;
+	
+public:
+	unsigned long int insertString(const std::string key);
+	int getSize();
+	void setSize(const int size); // really just a resize function
+	std::string getString(const unsigned long int hash);
+	AHashTable();
+	AHashTable(const int size);
+
+};
+
+AHashTable::AHashTable() {
+  maxSize = 81;
+	table = new Node *[81];
+}
+
+AHashTable::AHashTable(const int size) {	
+	maxSize = size;
+	table = new Node *[maxSize];
+}
+unsigned long int AHashTable::insertString(const std::string key) {
+	unsigned long int hashValue = 0;
+
+	if(key == "") {
+		std::cout << "Unable to insert empty string\n";
+		return -1;
+	}
+	
+	if(numStrings >= maxSize / 2) {
+		// Since this is a simple linear replacement hashtable,
+		// The amortized runtime when lambda >= size / 2 greatly
+		// increases, so then the correct option is to resize the
+		// table with a (likely) coprime value
+
+		this->setSize((maxSize * 2) + 2);
+	}
+
+	for(int i = 0; i < key.length(); i++) {
+		hashValue += (int)(key.at(i)) * std::pow(37, i);
+	}
+	hashValue %= maxSize;
+
+	Node *current = table[hashValue];
+	
+	while(current->next != nullptr) {
+		current = current->next;
+	}
+
+	Node *insertVal = new Node(key, nullptr);
+	current->next = insertVal;
+
+	numStrings++;
+	
+	return hashValue;
+}
+
+int AHashTable::getSize() {
+	return numStrings;
+}
+
+// really just a resize function
+void AHashTable::setSize(const int size) {
+
+}
+
+std::string AHashTable::getString(const unsigned long int hash) {
+
+	return "";
 }
 
 int main() {
