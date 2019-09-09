@@ -120,6 +120,48 @@ bool palindromePermuation(std::string argString) {
 	return (numFalses <= 1);
 }
 
+// given two strings, check to see whether one can form another after: replacing
+// a character, removing a character, or adding a character
+bool oneAway(std::string origin, std::string target) {
+	bool remove = true;
+	bool insert = true;
+	bool replace = false;
+
+  if(std::abs(origin.length() - target.length) > 1) {
+		return false;
+	}
+	else {
+		for(int i = 0; i < origin.length; i++) {
+			if(origin.at(i) == target.at(i)) {
+				continue;
+			}
+			else if(origin.at(i + 1) == target.at(i)) {
+				if(remove) {
+					remove = false; // marked that a removal needs to happen
+				}
+				else {
+					return false;
+				}
+			}
+			else if(origin.at(i) == target.at(i + 1)) {
+				if (insert) {
+					insert = false;
+				}
+				else {
+					return false;
+				}
+			}
+			else if(replace) {
+			  replace = false;
+			}
+			else {
+				return false
+			}														 
+		}		
+	}
+	
+	return true;
+}
 
 int main() {
 	
