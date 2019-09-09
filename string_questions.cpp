@@ -3,6 +3,8 @@
 #include <cstring>
 #include <cstdio>
 #include <vector>
+#include <cstdlib>
+#include <cmath>
 
 // These are my attempts to solve questions out of "Cracking the Coding interview"'s
 // string chapter.
@@ -125,25 +127,26 @@ bool palindromePermuation(std::string argString) {
 bool oneAway(std::string origin, std::string target) {
 	bool remove = true;
 	bool insert = true;
-	bool replace = false;
+	bool replace = true;
 
-  if(std::abs(origin.length() - target.length) > 1) {
+  if(abs(origin.length() - target.length()) > 1) {
 		return false;
 	}
 	else {
-		for(int i = 0; i < origin.length; i++) {
-			if(origin.at(i) == target.at(i)) {
+		for(int i = 0; i < std::max(origin.length(), target.length()) - 1; i++) {
+			int j = i + (int)(!remove);
+			if(origin.at(j) == target.at(i)) {
 				continue;
 			}
-			else if(origin.at(i + 1) == target.at(i)) {
+			else if(origin.at(j + 1) == target.at(i)) {
 				if(remove) {
-					remove = false; // marked that a removal needs to happen
+					remove = false;
 				}
 				else {
 					return false;
 				}
 			}
-			else if(origin.at(i) == target.at(i + 1)) {
+			else if(origin.at(j) == target.at(i + 1)) {
 				if (insert) {
 					insert = false;
 				}
@@ -155,7 +158,7 @@ bool oneAway(std::string origin, std::string target) {
 			  replace = false;
 			}
 			else {
-				return false
+				return false;
 			}														 
 		}		
 	}
@@ -165,13 +168,15 @@ bool oneAway(std::string origin, std::string target) {
 
 int main() {
 	
-	std::string checkString = "";
+	std::string checkString1 = "", checkString2 = "";
 
 	while(true) {
-		std::cin >> checkString;
+		std::cin >> checkString1 >> checkString2;
 		//std::cout << checkString1 << " " << checkString2 << ": "
 		//					<< checkPermutations(checkString1, checkString2) << "\n";
-		std::cout << checkString << " " << palindromePermuation(checkString) << "\n";
+
+		std::cout << checkString1 << " "  << checkString2 << " "
+							<< oneAway(checkString1 + "  ", checkString2 + "  ") << "\n";
 	}
 	
 	return 0;
