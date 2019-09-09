@@ -42,15 +42,18 @@ bool checkPermutations(std::string string1, std::string string2) {
 	// This only occurs after checking that the two strings have the same length. The
 	// runtime of this is O(n) when n is the length of the strings, and O(1) memory
 	if(string1.length() == string2.length()) {
-		std::vector<int> vector1(0, 26);
-		std::vector<int> vector2(0, 26);
+		std::vector<int> vector1(26, 0);
+		std::vector<int> vector2(26, 0);
+
 		for(int i = 0; i < string1.length(); i++) {
-			vector1[(int)(tolower(string1.at(i))) - (int)('a')]++;
+			(vector1[(int)(tolower(string1.at(i))) - (int)('a')])++;
 		}
-		for(int i = 0; i < string1.length(); i++) {
-			vector2[(int)(tolower(string1.at(i))) - (int)('a')]++;
+
+		for(int i = 0; i < string2.length(); i++) {
+			(vector2[(int)(tolower(string2.at(i))) - (int)('a')])++;
 		}
-		for(int i = 0; i < string1.length(); i++) {
+
+		for(int i = 0; i < 26; i++) {
 			if(vector1[i] != vector2[i]) {
 				return false;
 			}
@@ -63,13 +66,31 @@ bool checkPermutations(std::string string1, std::string string2) {
 	}
 }
 
+std::string urlify(std::string argString) {
+	bool haveSeenCharacters = false;
+  for(int i = argString.length(); i > 0; i--) {
+		if(isalpha(argString.at(i))) {
+			haveSeenCharacters = true;
+		}
+		if(haveSeenCharacters) {
+			if(argString.at(i) == ' ') {
+				// move back all characters after i 2 spaces, and then replace the space
+				// with 
+				
+			}
+		}
+	}
+	return argString;
+}
+
 int main() {
 
 	while(true) {
 		std::string checkString1 = "", checkString2 = "";
 		std::cin >> checkString1 >> checkString2;
 		
-		std::cout << checkString1 << " " << checkString2 << ": " 	<< 
+		std::cout << checkString1 << " " << checkString2 << ": "
+							<< checkPermutations(checkString1, checkString2) << "\n";
 	}
 	
 	return 0;

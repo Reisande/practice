@@ -66,14 +66,48 @@ bool checkPermutations(std::string string1, std::string string2) {
 	}
 }
 
+std::string urlify(std::string argString) {
+	bool haveSeenCharacters = false;
+  for(int i = argString.length() - 1; i > 0; i--) {
+		if(isalpha(argString.at(i))) {
+			haveSeenCharacters = true;
+		}
+
+		if(haveSeenCharacters) {
+			if(argString.at(i) == ' ') {
+				// move back all characters after i 2 spaces, and then replace the space
+				// with '%20'
+				// this has O(n^2) runtime
+				for(int j = argString.length(); j > i + 2; j--) {
+					argString.at(j) = argString.at(j - 2);					
+				}
+				
+				argString.at(i) = '%';
+				argString.at(i) = '2';
+				argString.at(i) = '0';
+			}
+		}
+	}
+	
+	return argString;
+}
+
 int main() {
 
 	while(true) {
 		std::string checkString1 = "", checkString2 = "";
-		std::cin >> checkString1 >> checkString2;
+		int spaceCount = -1;
+		for(int i = 0; i < 3; i++){
+			std::cin >> checkString2;
+			checkString1 += checkString2 + " ";
+		}
+		for(int i = 0; i < spaceCount; i++) {
+			checkString1 += "   ";
+		}
 		
-		std::cout << checkString1 << " " << checkString2 << ": "
-							<< checkPermutations(checkString1, checkString2) << "\n";
+		//std::cout << checkString1 << " " << checkString2 << ": "
+		//					<< checkPermutations(checkString1, checkString2) << "\n";
+		std::cout << checkString1 << " " << urlify(checkString1);
 	}
 	
 	return 0;
