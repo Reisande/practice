@@ -66,30 +66,6 @@ bool checkPermutations(std::string string1, std::string string2) {
 	}
 }
 
-// The first, most simple solution I can think of is generate the
-// array of all permutations, and check if its a palindrome
-// Another solution is to check to see if every character has
-// a corresponding pair, or every character except one(which would
-// be the middle one)
-bool palindromePermuation(std::string argString) {
-	std::vector<bool> checkBools(26, true);
-
-	for(int i = 0; i < argString.length(); i++) {
-		int currentPosition = tolower(argString.at(i)) - (int)('a');
-		checkBools[currentPosition] = ! checkBools[currentPosition];
-	}
-
-	int numFalses = 0;
-
-	for(int i = 0; i < 26; i++) {
-		if(! checkBools[i]) {
-			numFalses++;
-		}
-	}
-	
-	return (numFalses <= 1);
-}
-
 std::string urlify(std::string argString) {
 	bool haveSeenCharacters = false;
   for(int i = argString.length() - 1; i > 0; i--) {
@@ -116,13 +92,45 @@ std::string urlify(std::string argString) {
 	return argString;
 }
 
-int main() {
 
-	std::string checkString1 = "Mr. John Smith      ";
-		
-	//std::cout << checkString1 << " " << checkString2 << ": "
-	//					<< checkPermutations(checkString1, checkString2) << "\n";
-	std::cout << checkString1 << " " << urlify(checkString1) << "\n";
+// The first, most simple solution I can think of is generate the
+// array of all permutations, and check if its a palindrome
+// Another solution is to check to see if every character has
+// a corresponding pair, or every character except one(which would
+// be the middle one)
+bool palindromePermuation(std::string argString) {
+	std::vector<bool> checkBools(true);
+
+	for(int i = 0; i < argString.length(); i++) {
+		// The isalpha() is to allow for convenient testing  with std::cin
+		if(isalpha(argString.at(i))) {
+			int currentPosition = tolower(argString.at(i)) - (int)('a');
+			checkBools[currentPosition] = ! checkBools[currentPosition];
+		}
+	}
+
+	int numFalses = 0;
+
+	for(int i = 0; i < checkBools.size(); i++) {
+		if(! checkBools[i]) {
+			numFalses++;
+		}
+	}
+	
+	return (numFalses <= 1);
+}
+
+
+int main() {
+	
+	std::string checkString = "";
+
+	while(true) {
+		std::cin >> checkString;
+		//std::cout << checkString1 << " " << checkString2 << ": "
+		//					<< checkPermutations(checkString1, checkString2) << "\n";
+		std::cout << checkString << " " << palindromePermuation(checkString) << "\n";
+	}
 	
 	return 0;
 }
