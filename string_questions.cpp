@@ -205,12 +205,12 @@ std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> ori
 	std::vector<std::vector<int>> returnVector = originMatrix;
 	std::vector<int> zeroColumns, zeroRows;
 
-	// n is the number of columns, m is the number of rows
-	const int m = originMatrix.size();
-	const int n = originMatrix[0].size();
+	// x is the number of columns, y is the number of rows
+	const int x = originMatrix.size();
+	const int y = originMatrix[0].size();
 	
-	for(int i = 0; i < originMatrix.size(); i++) {
-		for(int j = 0; i < originMatrix[i].size(); i++) {
+	for(int i = 0; i < x; i++) {
+		for(int j = 0; i < y; i++) {
 			if(originMatrix[i][j] == 0) {
 				zeroColumns.push_back(i);
 				zeroRows.push_back(j);
@@ -218,14 +218,16 @@ std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> ori
 		}
 	}
 
+	// replaces every value in the return matrix column with 0
 	for(int i = 0; i < zeroColumns.size(); i++) {
-		for(int j = 0; j < m; j++) {
+		for(int j = 0; j < y; j++) {
 		  returnVector[i][j] = 0;
 		}
 	}
 
+	// replaces every value in the return matrix row with 0
 	for(int i = 0; i < zeroRows.size(); i++) {
-		for(int j = 0; j < n; j++) {
+		for(int j = 0; j < x; j++) {
 		  returnVector[j][i] = 0;
 		}
 	}
