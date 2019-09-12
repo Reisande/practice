@@ -235,6 +235,14 @@ std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> ori
   return returnVector;
 }
 
+
+// supose you have two strings s1 and s2, write code to check if s2 is a rotation of
+// s1 by using only one call to isSubstring
+bool substringRotation(const std::string s1, const std::string s2) {
+
+	return true;
+}
+
 int main() {
 	
 	std::string checkString1 = "", checkString2 = "";
