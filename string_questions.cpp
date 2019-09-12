@@ -166,10 +166,38 @@ bool oneAway(std::string origin, std::string target) {
 	return true;
 }
 
-std::string stringCompression(std::string argString) {
+std::string compressString(std::string argString) {
+	if(argString == "") {
+		return "";
+	}
+	else {
+		std::string returnString = "";
+		char mostRecentChar = argString.at(0);
+		int mostRecentCharCount = 1;
+		
+		for(int i = 1; i < argString.length(); i++) {
+			if(mostRecentChar == argString.at(i)) {
+				mostRecentCharCount++;
+			}
+			else {
+				// characters don't match
+				returnString += mostRecentChar + std::to_string(mostRecentCharCount);
+				mostRecentChar = argString.at(i);
+				mostRecentCharCount = 1;
+			}
+		}
 
-
-	return "";
+		mostRecentCharCount++;
+		returnString += (mostRecentChar) + std::to_string(mostRecentCharCount);
+	  
+	  
+		if(returnString.length() <= argString.length()) {
+			return returnString;
+		}
+		else {
+			return argString;
+		}
+	}
 }
 
 int main() {
@@ -177,12 +205,11 @@ int main() {
 	std::string checkString1 = "", checkString2 = "";
 
 	while(true) {
-		std::cin >> checkString1 >> checkString2;
+		std::cin >> checkString1;
 		//std::cout << checkString1 << " " << checkString2 << ": "
 		//					<< checkPermutations(checkString1, checkString2) << "\n";
 
-		std::cout << checkString1 << " "  << checkString2 << " "
-							<< oneAway(checkString1 + "  ", checkString2 + "  ") << "\n";
+		std::cout << checkString1 << " "  << compressString(checkString1) << "\n";
 	}
 	
 	return 0;
