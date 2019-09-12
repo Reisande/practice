@@ -188,8 +188,7 @@ std::string compressString(std::string argString) {
 		}
 
 		mostRecentCharCount++;
-		returnString += (mostRecentChar) + std::to_string(mostRecentCharCount);
-	  
+		returnString += (mostRecentChar) + std::to_string(mostRecentCharCount);	  
 	  
 		if(returnString.length() <= argString.length()) {
 			return returnString;
@@ -198,6 +197,40 @@ std::string compressString(std::string argString) {
 			return argString;
 		}
 	}
+}
+
+// given a 2d, n by m  matrix, if an index is 0, set the entire column and
+// row of the index to be 0
+std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> originMatrix) {
+	std::vector<std::vector<int>> returnVector = originMatrix;
+	std::vector<int> zeroColumns, zeroRows;
+
+	// n is the number of columns, m is the number of rows
+	const int m = originMatrix.size();
+	const int n = originMatrix[0].size();
+	
+	for(int i = 0; i < originMatrix.size(); i++) {
+		for(int j = 0; i < originMatrix[i].size(); i++) {
+			if(originMatrix[i][j] == 0) {
+				zeroColumns.push_back(i);
+				zeroRows.push_back(j);
+			}
+		}
+	}
+
+	for(int i = 0; i < zeroColumns.size(); i++) {
+		for(int j = 0; j < m; j++) {
+		  returnVector[i][j] = 0;
+		}
+	}
+
+	for(int i = 0; i < zeroRows.size(); i++) {
+		for(int j = 0; j < n; j++) {
+		  returnVector[j][i] = 0;
+		}
+	}
+
+  return returnVector;
 }
 
 int main() {
