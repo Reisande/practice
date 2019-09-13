@@ -44,11 +44,13 @@ bool isSubstring(const std::string s1, const std::string s2) {
 	}
 	else {
 		for(int i = 0; i < (s1.length() / s2.length()) + 1; i++) {
-			std::pair<long unsigned int, unsigned int> pushPair(hash(s1.substr(i, s2.length())), i);
+			std::pair<long unsigned int, unsigned int> pushPair
+				(hashString(s1.substr(i, s2.length())), i);
+
 			hashes.emplace_back(pushPair);
 		}
 
-		const unsigned long int checkHash = hash(s2);
+		const unsigned long int checkHash = hashString(s2);
 
 		bool areEqual = false;
 		
@@ -58,7 +60,7 @@ bool isSubstring(const std::string s1, const std::string s2) {
 			}
 		}
 
-		reutrn areEqual;
+		return areEqual;
 	}
 }
 

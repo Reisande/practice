@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cmath>
 
+#include "utils.h"
+
 // These are my attempts to solve questions out of "Cracking the Coding interview"'s
 // string chapter.
 
@@ -129,7 +131,7 @@ bool oneAway(std::string origin, std::string target) {
 	bool insert = true;
 	bool replace = true;
 
-  if(abs(origin.length() - target.length()) > 1) {
+  if(abs((int)(origin.length() - target.length())) > 1) {
 		return false;
 	}
 	else {
@@ -238,9 +240,25 @@ std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> ori
 
 // supose you have two strings s1 and s2, write code to check if s2 is a rotation of
 // s1 by using only one call to isSubstring
+// eg: "waterbottle" and "erbottlewat"
+// or: "woahwater" and "waterwoah"
+// or: "madamimadam" and "mimadammada"
 bool substringRotation(const std::string s1, const std::string s2) {
+	if(s1.length() != s2.length()) {
+		return false;
+	}
+	else {
+		std::string rotate = "";
 
-	return true;
+		for(int i = 0; i < s2.length(); i++) {
+			if(s2.at(i) == s1.at(0)) {
+				rotate += s2.substr(i, s2.length() - i) + s2.substr(0, i)
+					+ s2.substr(0, i) + s2.substr(i, s2.length() - i);
+			}
+		}
+		
+		return isSubstring(rotate, s1);
+	}
 }
 
 int main() {
@@ -249,8 +267,6 @@ int main() {
 
 	while(true) {
 		std::cin >> checkString1;
-		//std::cout << checkString1 << " " << checkString2 << ": "
-		//					<< checkPermutations(checkString1, checkString2) << "\n";
 
 		std::cout << checkString1 << " "  << compressString(checkString1) << "\n";
 	}
