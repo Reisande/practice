@@ -22,6 +22,7 @@ bool allUniqueCharacters(const std::string checkString) {
 	}
 	else {
 		int checkValue = 1;
+
 		// O(n ^ 2) runtime, O(1) memory consumption
 		for(int i = 0; i < checkString.length() - 1; i++) {
 			for(int j = i + 1; j < checkString.length(); j++) { 
@@ -38,7 +39,7 @@ bool checkPermutations(std::string string1, std::string string2) {
 	// this solution assumes that there is no difference between upper and lower cases
 	// letters. This also assumes there are no numbers or special characters. This
 	// solution can be trivially extended to include numbers and special characters, but
-	// is unnecessary for the sake of the exxercise
+	// is unnecessary for the sake of the exercise
 
 	// This solution just parses through the two strings, one letter at a time, and
 	// increments two vectors in the corresponding position to a letter (a in string 1
@@ -82,6 +83,9 @@ std::string urlify(std::string argString) {
 				// move back all characters after i 2 spaces, and then replace the space
 				// with '%20'
 				// this has O(n^2) runtime
+
+				// this solution could have been optimized by removing this for loop
+				// and letting the main loop do the character shifting
 				for(int j = argString.length() - 1; j > i + 2; j--) {
 					argString.at(j) = argString.at(j - 2);					
 				}
@@ -126,6 +130,9 @@ bool palindromePermuation(std::string argString) {
 
 // given two strings, check to see whether one can form another after: replacing
 // a character, removing a character, or adding a character
+
+// this solution could have been optimized by comparing the sizes of the two
+// strings and only making one check based on the differing sizes
 bool oneAway(std::string origin, std::string target) {
 	bool remove = true;
 	bool insert = true;
@@ -168,6 +175,7 @@ bool oneAway(std::string origin, std::string target) {
 	return true;
 }
 
+// this can be made more efficient by using a stringBuilder
 std::string compressString(std::string argString) {
 	if(argString == "") {
 		return "";
@@ -214,8 +222,8 @@ std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> ori
 	for(int i = 0; i < x; i++) {
 		for(int j = 0; i < y; i++) {
 			if(originMatrix[i][j] == 0) {
-				zeroColumns.push_back(i);
-				zeroRows.push_back(j);
+				zeroRows.push_back(i);
+				zeroColumns.push_back(j);
 			}
 		}
 	}
@@ -223,14 +231,14 @@ std::vector<std::vector<int>> zeroMatrix(const std::vector<std::vector<int>> ori
 	// replaces every value in the return matrix column with 0
 	for(int i = 0; i < zeroColumns.size(); i++) {
 		for(int j = 0; j < y; j++) {
-		  returnVector[i][j] = 0;
+		  returnVector[j][zeroColumns[i]] = 0;
 		}
 	}
 
 	// replaces every value in the return matrix row with 0
 	for(int i = 0; i < zeroRows.size(); i++) {
 		for(int j = 0; j < x; j++) {
-		  returnVector[j][i] = 0;
+		  returnVector[zeroRows[i]][j] = 0;
 		}
 	}
 
@@ -262,8 +270,7 @@ bool substringRotation(const std::string s1, const std::string s2) {
 }
 
 int main() {
-	
-	std::string checkString1 = "", checkString2 = "";
+ 	std::string checkString1 = "", checkString2 = "";
 
 	while(true) {
 		std::cin >> checkString1;
