@@ -19,39 +19,43 @@ void mergeSort(std::vector<int> &array) {
 
 void _quickSort(std::vector<int> &array, const unsigned int start,
 								const unsigned int end, const unsigned int size) {
-	if(start >= end) {
+	if(start + 1 >= end) {
 		return;
 	}
 	else {
 		int pivot = array[start];
 		bool lowerOutOfOrder = false;
 		bool upperOutOfOrder = false;
-	  bool lowerIndex = start + 1;
-		bool upperIndex = end;
-		for(int i = start + 1; i < (end - start) / 2; i++) {
-			if(array[i] > pivot) {
-				// lower end is out of order
-				lowerIndex = i;
-				lowerOutOfOrder = true;
+	  int lowerIndex = start + 1;
+		int upperIndex = end;
+		
+		while(true) {			
+			lowerOutOfOrder = lowerOutOfOrder && (pivot > lowerOutOfOrder);
+			upperOutOfOrder = upperOutOfOrder && (pivot < upperOutOfOrder);
+			
+			lowerIndex = lowerOutOfOrder ? lowerIndex : lowerIndex + 1;
+			upperIndex = upperOutOfOrder ? upperIndex : upperIndex - 1;
+			
+			if(upperIndex <= lowerIndex) {
+			  int swapIndex = lowerIndex;
+
+				while(array[swapIndex] > pivot) {
+					swapIndex--;
+				}
+
+				array[start] = array[swapIndex];
+				array[swapIndex] = pivot;
+				break;
 			}
-			if(array[end - i - 1] < pivot) {
-				// upper end is out of order
-				upperIndex = end - i - 1;
-				upperOutOfOrder = true;
-			}
-			if(upperOutOfOrder && lowerOutOfOrder) {
+			
+			if(lowerOutOfOrder && upperOutOfOrder) {
 				int temp = array[lowerIndex];
 				array[lowerIndex] = array[upperIndex];
 				array[upperIndex] = temp;
 				
 				lowerOutOfOrder = false;
 				upperOutOfOrder = false;
-			}
-		}
-
-		if(upperOutOfOrder) {
-			array[start] = array[upperIndex];
-			array[upperIndex] = pivot;
+			}			
 		}
 		
 		_quickSort(array, start, upperIndex, size);
@@ -69,7 +73,27 @@ void quickSort(std::vector<int> &array) {
 }
 
 int main() {
+	std::vector<int> randomVector = generateRandomVector(30);
 
+	for(int i = 0; i < 30; i++) {
+		std::cout << randomVector[i] << " ";
+	}
 
+	std::cout << std::endl << std::endl;
+
+	quickSort(randomVector);
+
+	for(int i = 0; i < 30; i++) {
+		std::cout << randomVector[i] << " ";
+	}
+
+	bool isSorted = true;
+
+	for(int i = 0; i < 29; i++) {
+		isSorted = isSorted && (randomVector[i] < randomVector[i + 1]);
+	}
+
+	std::cout << "\n\nVector sort " << isSorted << std::endl;
+	
 	return 0;
 }
