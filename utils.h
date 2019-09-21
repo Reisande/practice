@@ -64,3 +64,13 @@ bool isSubstring(const std::string s1, const std::string s2) {
 	}
 }
 
+std::vector<int> generateRandomVector(const unsigned int size) {
+	std::vector<int> returnVector;
+
+	for(int i = 0; i < size; i++) {
+		// allows for duplicates in the array
+		returnVector.emplace_back(rand() % size);
+	}
+
+	return returnVector;
+}
