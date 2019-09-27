@@ -82,11 +82,21 @@ std::string createBitMap(const std::string filename,
 	std::ofstream ofs;
 	ofs.open(filename + ".bmp");
 
-	ofs << "P6\n " << width - 1 << " " << length - 1 << " 255\n";
+	ofs << "P6\n " << width << " " << length << " 255\n";
 	
 	for(int i = 0; i < data.size(); i++) {
-		ofs << (63 * data[i]) << " " << (63 * data[i]) << " "
-				<< (63 * data[i]) << "\n";
+		if(data[i] == 0) {
+			ofs << "0 0 0 ";
+		}
+		else if(data[i] == 1) {
+			ofs << "255 0 0 ";
+		}
+		else if(data[i] == 2) {
+			ofs << "0 255 0 ";
+		}
+		else if(data[i] == 3) {
+			ofs << "0 0 255 ";
+		}
 	}
 
 	return (filename + ".bmp");

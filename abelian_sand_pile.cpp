@@ -97,7 +97,7 @@ int main() {
 		else {
 			pile->placeSand(x, y, grains);
 
-			//pile->printBoard();
+			pile->printBoard();
 		}
 	}
 	
