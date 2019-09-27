@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 
+#include "utils.h"
+
 class Pile {
 private:
 	std::vector<int> board;
@@ -8,11 +10,14 @@ private:
 	
 public:
 	Pile();
-	Pile(int length, int width);
+	Pile(const int width, const int length);
 	
 	void printBoard();
 	void placeSand(const int x, const int y, const int grains);
-	
+
+	std::vector<int> returnBoard();
+	int returnWidth();
+		
 };
 
 Pile::Pile() {
@@ -21,7 +26,7 @@ Pile::Pile() {
 	board.assign(length * width, 0);
 }
 
-Pile::Pile(const int length, const int width) {
+Pile::Pile(const int width, const int length) {
 	this->length = length;
 	this->width = width;
 	board.assign(length * width, 0);
@@ -58,18 +63,31 @@ void Pile::placeSand(const int x, const int y, const int grains) {
 	}
 }
 
+std::vector<int> Pile::returnBoard() {
+	return this->board;
+}
+
+int Pile::returnWidth() {
+	return this->width;
+}
+
 int main() {
 	Pile *pile = new Pile();
 	
-	while(true) {
-		std::cout << "Enter a location where you would like to place sand, with the "
-							<< "amount of sand you would like to place.\n Press -1 to quit.\n";
-		
+	std::cout << "Enter a location where you would like to place sand, with the "
+						<< "amount of sand you would like to place.\n"
+						<< "Press -1 to quit.\n"
+						<< "Enter -2 <width> <length> to create a new board\n";
+	
+	while(true) {	
 		int x, y, grains;
 		std::cin >> x >> y >> grains;
 
 		if(x == -1) {
 			break;
+		}
+		if(x == -2) {
+			pile = new Pile(y, grains);
 		}
 		else {
 			pile->placeSand(x, y, grains);
@@ -77,6 +95,8 @@ int main() {
 			pile->printBoard();
 		}
 	}
+	
+	createBitMap("./board", pile->returnBoard(), pile->returnWidth());
 
 	return 0;
 }

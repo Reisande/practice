@@ -1,5 +1,6 @@
 #include <string>
 #include <stdlib.h>
+#include <fstream>
 
 // creates a random string of length 8(ascii 97-122). This is just for testing purposes
 std::string getRandomString() {
@@ -12,7 +13,6 @@ std::string getRandomString() {
 	
 	return returnString;
 }
-
 
 unsigned long int hashString(const std::string key) {
 	long unsigned int hashValue = 0;
@@ -73,4 +73,17 @@ std::vector<int> generateRandomVector(const unsigned int size) {
 	}
 
 	return returnVector;
+}
+
+// creates bitmap and returns the name of the local file
+std::string createBitMap(const std::string filename,
+												 const std::vector<int> data, const int width) {
+	std::ofstream ofs;
+	ofs.open(filename + ".bmp");
+
+	for(int i = 0; i < data.size(); i++) {
+		ofs << data[i] << " " << data[i] << " " << data[i] << "\n";
+	}
+
+	return (filename + ".bmp");
 }
