@@ -17,7 +17,8 @@ public:
 
 	std::vector<int> returnBoard();
 	int returnWidth();
-		
+	int returnLength();
+	
 };
 
 Pile::Pile() {
@@ -71,6 +72,10 @@ int Pile::returnWidth() {
 	return this->width;
 }
 
+int Pile::returnLength() {
+	return this->length;
+}
+
 int main() {
 	Pile *pile = new Pile();
 	
@@ -92,11 +97,11 @@ int main() {
 		else {
 			pile->placeSand(x, y, grains);
 
-			pile->printBoard();
+			//pile->printBoard();
 		}
 	}
 	
-	createBitMap("./board", pile->returnBoard(), pile->returnWidth());
+	createBitMap("./board", pile->returnBoard(), pile->returnWidth(), pile->returnLength());
 
 	return 0;
 }

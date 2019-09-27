@@ -77,12 +77,16 @@ std::vector<int> generateRandomVector(const unsigned int size) {
 
 // creates bitmap and returns the name of the local file
 std::string createBitMap(const std::string filename,
-												 const std::vector<int> data, const int width) {
+												 const std::vector<int> data,
+												 const int width, const int length) {
 	std::ofstream ofs;
 	ofs.open(filename + ".bmp");
 
+	ofs << "P6\n " << width - 1 << " " << length - 1 << " 255\n";
+	
 	for(int i = 0; i < data.size(); i++) {
-		ofs << data[i] << " " << data[i] << " " << data[i] << "\n";
+		ofs << (63 * data[i]) << " " << (63 * data[i]) << " "
+				<< (63 * data[i]) << "\n";
 	}
 
 	return (filename + ".bmp");
