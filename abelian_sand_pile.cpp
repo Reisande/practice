@@ -16,9 +16,15 @@ public:
 };
 
 Pile::Pile() {
-	length = 10;
-	width = 10;
-	board = new std::vector<int>(0, 100);
+	length = 11;
+	width = 11;
+	board.assign(length * width, 0);
+}
+
+Pile::Pile(const int length, const int width) {
+	this->length = length;
+	this->width = width;
+	board.assign(length * width, 0);
 }
 
 void Pile::printBoard() {
@@ -31,7 +37,7 @@ void Pile::printBoard() {
 }
 
 void Pile::placeSand(const int x, const int y, const int grains) {
-	if(x >= width || y >= length) {
+	if(x >= width || y >= length || x < 0 || y < 0) {
 		return;
 	}
 	else {
