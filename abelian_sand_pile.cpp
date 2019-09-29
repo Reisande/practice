@@ -97,11 +97,12 @@ int main() {
 		else {
 			pile->placeSand(x, y, grains);
 
-			pile->printBoard();
+			//pile->printBoard();
 		}
 	}
 	
-	createBitMap("./board", pile->returnBoard(), pile->returnWidth(), pile->returnLength());
+	std::cout << createBitMap("./board", pile->returnBoard(), pile->returnWidth(), pile->returnLength())
+						<< " file created\n";
 
 	return 0;
 }

@@ -79,25 +79,23 @@ std::vector<int> generateRandomVector(const unsigned int size) {
 std::string createBitMap(const std::string filename,
 												 const std::vector<int> data,
 												 const int width, const int length) {
-	std::ofstream ofs;
-	ofs.open(filename + ".bmp");
-
-	ofs << "P6\n " << width << " " << length << " 255\n";
-	
-	for(int i = 0; i < data.size(); i++) {
+	// Taken from Rosetta code's .ppm tutorial in C originally, then modified
+  FILE *fp = fopen((filename + ".ppm").c_str(), "wb"); /* b - binary mode */
+  (void) fprintf(fp, "P6\n%d %d\n255\n", width, length);
+  
+	for(int i = 0; i < width * length; i++) {
+	  unsigned char color[3] = {0, 0, 0};
 		if(data[i] == 0) {
-			ofs << "0 0 0 ";
+			// leave array as is
 		}
-		else if(data[i] == 1) {
-			ofs << "255 0 0 ";
+		else {
+			color[(data[i]) - 1] = 255;
 		}
-		else if(data[i] == 2) {
-			ofs << "0 255 0 ";
-		}
-		else if(data[i] == 3) {
-			ofs << "0 0 255 ";
-		}
+			
+		(void) fwrite(color, 1, 3, fp);
 	}
+  
+  (void) fclose(fp);
 
-	return (filename + ".bmp");
+	return (filename + ".ppm");
 }
