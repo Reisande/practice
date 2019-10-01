@@ -88,6 +88,9 @@ std::string createBitMap(const std::string filename,
 		if(data[i] == 0) {
 			// leave array as is
 		}
+		else if(data[i] == 4) {
+			//color = {255, 255, 255};
+		}
 		else {
 			color[(data[i]) - 1] = 255;
 		}

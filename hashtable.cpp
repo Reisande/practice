@@ -154,6 +154,7 @@ AHashTable::ReturnHash *AHashTable::insertString(const std::string key) {
 	for(int i = 0; i < key.length(); i++) {
 		hashValue += (int)(key.at(i)) * std::pow(37, i);
 	}
+	
 	hashValue %= maxSize;
 
 	Node *current = table[hashValue];
