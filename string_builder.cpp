@@ -36,7 +36,7 @@ std::string StringBuilder::toString() {
 	return recursiveStringConvert(0, "");
 }
 
-void StringBuilder::append(std::string newString) {
+void StringBuilder::append(const std::string &newString) {
 	strings.emplace_back(newString);
 }
 

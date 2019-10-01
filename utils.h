@@ -35,7 +35,7 @@ unsigned long int hashString(const std::string key) {
 // is actually equal to the other
 
 // this assumes that s2 is the string which is the substring
-bool isSubstring(const std::string s1, const std::string s2) {
+bool isSubstring(const std::string &s1, const std::string &s2) {
 	// the pair is for hash and position within s1
 	std::vector<std::pair<long unsigned int, unsigned int>> hashes;
 
