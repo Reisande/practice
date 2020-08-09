@@ -1,0 +1,11 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "description": "Practice to learn basics of the typescript language",
+  "main": "typescript.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Misha Ryabko",
+  "license": "ISC"
+}
