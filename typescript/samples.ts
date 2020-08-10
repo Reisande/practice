@@ -202,8 +202,6 @@ console.log("when called by name");
 /*
  * Lexical scoping
  * (λ(y.λ(y.(y y)) y) λ(z.z))
- * ((λ(y.(y y)) y) λ(z.z))
-
  */
 const l: LambdaCalculus.Top = {
     type: "Application",
@@ -256,15 +254,18 @@ console.log("  ╰--------╯  ")
 console.log("the variables are connected like so");
 console.log("Another, more complicated example:")
 console.log(LambdaCalculus.prettyPrint(l));
-console.log("   |    |  | |   |    | |");
-console.log("   |    ╰--╯-╯   |    ╰-╯");
+console.log("   |    |  | |   |     | |");
+console.log("   |    ╰--╯-╯   |     ╰-╯");
 console.log("   ╰-------------╯");
 console.log("and is evaluated to");
 const l1: LambdaCalculus.Top = LambdaCalculus.callByName(l);
-console.log(LambdaCalculus.prettyPrint(LambdaCalculus.callByName(l1)));
+console.log(LambdaCalculus.prettyPrint(l1));
 console.log("and then");
 const l2: LambdaCalculus.Top = LambdaCalculus.callByName(l1);
-console.log(LambdaCalculus.prettyPrint(LambdaCalculus.callByName(l2)));
+console.log(LambdaCalculus.prettyPrint(l2));
+console.log("and then");
+const l3: LambdaCalculus.Top = LambdaCalculus.callByName(l2);
+console.log(LambdaCalculus.prettyPrint(l3));
 
 // TODO
 // church calculus, true/false, currying, stlc

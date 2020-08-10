@@ -120,7 +120,6 @@ export function callByValue(t: Top): Top {
         return deepCopy(t);
     }
 
-
     if (returnT.argument.type == "Application") {
         returnT.argument = this.callByName(returnT.argument);
         return returnT;
