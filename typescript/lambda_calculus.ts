@@ -1,4 +1,4 @@
-function deepCopy<T>(a: T): T {
+export function deepCopy<T>(a: T): T {
     return JSON.parse(JSON.stringify(a));
 }
 
@@ -123,6 +123,7 @@ export function callByValue(t: Top): Top {
 
     if (returnT.argument.type == "Application") {
         returnT.argument = this.callByName(returnT.argument);
+        return returnT;
     }
     else {
         return this.callByName(returnT);
