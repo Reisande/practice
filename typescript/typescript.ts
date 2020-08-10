@@ -170,14 +170,20 @@ const numberOrString = function(b: boolean): number | string {
     }
 }
 
-type Variable = string;
+type Variable = {
+    name: string;
+    nest: number;
+}
 
 type Lambda = {
     parameter: Variable;
     body: Top;
 }
 
-type Application = [Top, Top];
+type Application = {
+    caller: Top;
+    argument: Top;
+};
 
 // you can also declare types as union types, like ocaml
 type Top =
@@ -202,3 +208,4 @@ map['y'] = 0;
 
 console.log(map);
 
+console.log(map['z']);

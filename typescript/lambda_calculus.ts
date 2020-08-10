@@ -1,45 +1,154 @@
-type Variable = {
-    name: string;
-    nest: number;
+function deepCopy<T>(a): T {
+    return JSON.parse(JSON.stringify(a));
 }
 
-type Lambda = {
-    parameter: Variable;
-    body: Top;
-}
-
-type Application = {
-    caller: Top;
-    argument: Top;
-};
-
+// you can also declare types as union types, like ocaml
 type Top =
-    | Variable
-    | Application
-    | Lambda;
+    | { type: "Variable", name: string, nest: number }
+    | { type: "Lambda", parameter: string, body: Top }
+    | { type: "Application", caller: Top, argument: Top };
 
-class Map<V> {
+class StringMap<V> {
     [key: string]: V;
+}
+
+class NumberMap<V> {
+    [key: number]: V;
 }
 
 class Program {
     t: Top;
-    // the keys are the name of the variable, and the return value is the number
-    // of preexisting symbols with the same name, so when a new variable is found
-    // with the sample name then the new variable has the nest level incremented
-    symbols: Map<number>;
 
     constructor(t: Top = null) {
         this.t = t;
     }
 
-    static callByName(): Program {
+    static checkValidFunction(p: Program): Top {
+        if (p.t.type !== "Application") {
+            console.log(p);
+            console.log(" the program has been fully evaluated");
+            return deepCopy(p);
+        }
+
+        if (p.t.caller.type !== "Lambda") {
+            console.log(p.t);
+            console.log(" This is an invalid caller (only functions can be called)");
+            console.log(" if this is a variable, then the variable is unbound and");
+            console.log(" this expression has been fully evaluated");
+            return deepCopy(p);
+        }
 
         return null;
     }
 
-    static callByValue(): Program {
+	/*
+	 * the program is the lambda which we will recursively descend down and replace 
+	 * all instances of a parameter until we hit another instance of a paramater with
+	 * the same name, or we hit the primitive case of reaching a variable
+	 *
+	 * p is the program we are replacing parameters in, t is the argument we passed
+	 * and name is the parameter we are replacing 
+	 */
+    static replaceParameter(t: Top, argument: Top, s: string): Top {
+        switch (t.type) {
+            case "Application":
+                return {
+                    type: "Application",
+                    caller: this.replaceParameter(t.caller, argument, s),
+                    argument: this.replaceParameter(t.argument, argument, s)
+                };
 
-        return null;
+            case "Lambda":
+                if (t.parameter === s) {
+                    return deepCopy(t);
+                }
+                else {
+                    return {
+                        type: "Lambda",
+                        parameter: t.parameter,
+                        body: this.replaceParameter(t.body, argument, s)
+                    };
+                }
+
+            case "Variable":
+                if (t.name === s) {
+                    return deepCopy(argument);
+                }
+                else {
+                    return deepCopy(t);
+                }
+
+        }
+    }
+
+	/*
+     * go through and do one stage of evaluation, so an example would be:
+     * λ(x.(λ(y.(x y))))(λ(z.z))
+     * becomes
+     * λ(y.(λ(z.z) y))
+	 */
+    static callByName(t: Top): Top {
+        if (t.type !== "Application") {
+            console.log(t);
+            console.log(" the program has been fully evaluated");
+            return deepCopy(t);
+        }
+
+        if (t.caller.type !== "Lambda") {
+            console.log(t);
+            console.log(" This is an invalid caller (only functions can be called)");
+            console.log(" if this is a variable, then the variable is unbound and");
+            console.log(" this expression has been fully evaluated");
+            return deepCopy(t);
+        }
+
+        let returnT: Top = this.replaceParameter(t, t.argument, t.caller.parameter);
+
+        return returnT;
+    }
+
+	/*
+	 * evaluate the argument once and then do one stage of evaluation
+     * the argument is not evaluated fully because it is possible that the
+     * argument is undecidable and will be thrown away later
+     * for example:
+     * (λ(x.(λ(y.y))) (λ(z.(z z)) λ(z.(z z))))
+     * is a function which *does* halt if evaluated in call by name semantics
+     * but *cannot* halt if evaluated in call by value semantics. This is
+     * this is because the expression (λ(z.(z z)) λ(z.(z z))) cannot be evaluated
+     * at all. In both call by name and call by value semantics it is a quine
+     * however, if we evaluate the first expression in call by name semantics
+     * we get the terminal expression λ(y.y)
+	 */
+    static callByValue(t: Top): Top {
+        // just because it is simplest, if the argument is in a form where it
+        // can be evaluated, we will just do one step of the call by name
+        // evaluation on the argument and leave the calling function alone
+        // if the argument has been fully evaluated, then we will just do a
+        // call by name evaluation
+        let returnT: Top = deepCopy(t);
+
+        // this isn't DRY, but making it into a separate function makes tide unhappy
+        if (returnT.type !== "Application") {
+            console.log(t);
+            console.log(" the program has been fully evaluated");
+            return deepCopy(t);
+        }
+
+        if (returnT.caller.type !== "Lambda") {
+            console.log(t);
+            console.log(" This is an invalid caller (only functions can be called)");
+            console.log(" if this is a variable, then the variable is unbound and");
+            console.log(" this expression has been fully evaluated");
+            return deepCopy(t);
+        }
+
+
+        if (returnT.argument.type == "Application") {
+            returnT.argument = this.callByName(returnT.argument);
+        }
+        else {
+            return this.callByName(returnT);
+        }
     }
 }
