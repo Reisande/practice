@@ -114,9 +114,9 @@ export function callByValue(t: Top): Top {
 
     if (returnT.caller.type !== "Lambda") {
         console.log(t);
-        console.log(" This is an invalid caller (only functions can be called)");
-        console.log(" if this is a variable, then the variable is unbound and");
-        console.log(" this expression has been fully evaluated");
+        console.log(" This is an invalid caller (only functions or applications");
+        console.log(" can be called) if this is a variable, then the variable");
+        console.log(" is unbound and this expression has been fully evaluated");
         return deepCopy(t);
     }
 

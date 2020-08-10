@@ -197,16 +197,74 @@ console.log("becomes");
 console.log(LambdaCalculus.prettyPrint(LambdaCalculus.callByValue(d)));
 console.log("when called by value, but becomes");
 console.log(LambdaCalculus.prettyPrint(LambdaCalculus.callByName(d)));
+console.log("when called by name");
 
 /*
- * Lexical Scoping
+ * Lexical scoping
+ * (λ(y.λ(y.(y y)) y) λ(z.z))
+ * ((λ(y.(y y)) y) λ(z.z))
+
  */
+const l: LambdaCalculus.Top = {
+    type: "Application",
+    argument: {
+        type: "Lambda",
+        parameter: "z",
+        body: {
+            type: "Variable",
+            name: "z"
+        }
+    },
+    caller: {
+        type: "Lambda",
+        parameter: "y",
+        body: {
+            type: "Application",
+            argument: {
+                type: "Variable",
+                name: "y"
+            },
+            caller: {
+                type: "Lambda",
+                parameter: "y",
+                body: {
+                    type: "Application",
+                    caller: {
+                        type: "Variable",
+                        name: "y"
+                    },
+                    argument: {
+                        type: "Variable",
+                        name: "y"
+                    }
+                }
+            }
+        }
+    }
+}
+console.log(LambdaCalculus.prettyPrint(l));
 
-
-/*
- * Lexical scoping, but fancier
- */
-
+console.log("Now is an example of the concept of lexical scoping. Lexical Scoping");
+console.log("is pretty similar to scoping in traditional programming languages; variables");
+console.log("inside of lambdas correspond to the parameter in the closest nest layer");
+console.log("");
+console.log("So, for example in the following case:");
+console.log("λ(y.λ(y.y) y)")
+console.log("  |   | |  | ")
+console.log("  |   ╰-╯  | ");
+console.log("  ╰--------╯  ")
+console.log("the variables are connected like so");
+console.log("Another, more complicated example:")
+console.log(LambdaCalculus.prettyPrint(l));
+console.log("   |    |  | |   |    | |");
+console.log("   |    ╰--╯-╯   |    ╰-╯");
+console.log("   ╰-------------╯");
+console.log("and is evaluated to");
+const l1: LambdaCalculus.Top = LambdaCalculus.callByName(l);
+console.log(LambdaCalculus.prettyPrint(LambdaCalculus.callByName(l1)));
+console.log("and then");
+const l2: LambdaCalculus.Top = LambdaCalculus.callByName(l1);
+console.log(LambdaCalculus.prettyPrint(LambdaCalculus.callByName(l2)));
 
 // TODO
-// church calculus, true/false
+// church calculus, true/false, currying, stlc
