@@ -1,4 +1,4 @@
-function deepCopy<T>(a): T {
+function deepCopy<T>(a: T): T {
     return JSON.parse(JSON.stringify(a));
 }
 
@@ -7,32 +7,6 @@ type Top =
     | { type: "Variable", name: string, nest: number }
     | { type: "Lambda", parameter: string, body: Top }
     | { type: "Application", caller: Top, argument: Top };
-
-class StringMap<V> {
-    [key: string]: V;
-}
-
-class NumberMap<V> {
-    [key: number]: V;
-}
-
-checkValidFunction(p: Program): Top {
-    if (p.t.type !== "Application") {
-        console.log(p);
-        console.log(" the program has been fully evaluated");
-        return deepCopy(p);
-    }
-
-    if (p.t.caller.type !== "Lambda") {
-        console.log(p.t);
-        console.log(" This is an invalid caller (only functions can be called)");
-        console.log(" if this is a variable, then the variable is unbound and");
-        console.log(" this expression has been fully evaluated");
-        return deepCopy(p);
-    }
-
-    return null;
-}
 
 /*
  * the program is the lambda which we will recursively descend down and replace 
