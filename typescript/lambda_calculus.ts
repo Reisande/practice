@@ -3,10 +3,21 @@ function deepCopy<T>(a: T): T {
 }
 
 // you can also declare types as union types, like ocaml
-type Top =
-    | { type: "Variable", name: string, nest: number }
+export type Top =
+    | { type: "Variable", name: string }
     | { type: "Lambda", parameter: string, body: Top }
     | { type: "Application", caller: Top, argument: Top };
+
+export function prettyPrint(t: Top): string {
+    switch (t.type) {
+        case "Variable":
+            return t.name;
+        case "Lambda":
+            return "λ(" + t.parameter + "." + prettyPrint(t.body) + ")";
+        case "Application":
+            return "(" + prettyPrint(t.caller) + " " + prettyPrint(t.argument) + ")";
+    }
+}
 
 /*
  * the program is the lambda which we will recursively descend down and replace 
@@ -16,7 +27,7 @@ type Top =
  * p is the program we are replacing parameters in, t is the argument we passed
  * and name is the parameter we are replacing 
  */
-function replaceParameter(t: Top, argument: Top, s: string): Top {
+export function replaceParameter(t: Top, argument: Top, s: string): Top {
     switch (t.type) {
         case "Application":
             return {
@@ -44,7 +55,6 @@ function replaceParameter(t: Top, argument: Top, s: string): Top {
             else {
                 return deepCopy(t);
             }
-
     }
 }
 
@@ -54,7 +64,7 @@ function replaceParameter(t: Top, argument: Top, s: string): Top {
  * becomes
  * λ(y.(λ(z.z) y))
  */
-function callByName(t: Top): Top {
+export function callByName(t: Top): Top {
     if (t.type !== "Application") {
         console.log(t);
         console.log(" the program has been fully evaluated");
@@ -69,7 +79,7 @@ function callByName(t: Top): Top {
         return deepCopy(t);
     }
 
-    let returnT: Top = this.replaceParameter(t, t.argument, t.caller.parameter);
+    let returnT: Top = this.replaceParameter(t.caller.body, t.argument, t.caller.parameter);
 
     return returnT;
 }
@@ -87,7 +97,7 @@ function callByName(t: Top): Top {
  * however, if we evaluate the first expression in call by name semantics
  * we get the terminal expression λ(y.y)
  */
-function callByValue(t: Top): Top {
+export function callByValue(t: Top): Top {
     // just because it is simplest, if the argument is in a form where it
     // can be evaluated, we will just do one step of the call by name
     // evaluation on the argument and leave the calling function alone
@@ -118,3 +128,4 @@ function callByValue(t: Top): Top {
         return this.callByName(returnT);
     }
 }
+
