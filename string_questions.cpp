@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstdlib>
 #include <cmath>
+#include <regex>
 
 #include "utils.h"
 
@@ -177,36 +178,48 @@ bool oneAway(std::string origin, std::string target) {
 
 // this can be made more efficient by using a stringBuilder
 std::string compressString(std::string argString) {
+	// making max size of input string 16 KiB
+	if(argString.size() > (sizeof(char) * 16384)) {
+		return "<invalid: input too large>";
+	}
+	std::regex regularExpression("[a-z]*");
+	if(!std::regex_match(argString, regularExpression)) {
+		regularExpression = std::regex("[a-z|0-9]*");
+		if(std::regex_match(argString, regularExpression)) {
+			return "<invalid: contains numbers>";
+		}
+		regularExpression = std::regex("[A-Z|a-z]*");
+		if(std::regex_match(argString, regularExpression)) {
+			return "<invalid: contains uppercase characters>";
+		}
+	}
+	
 	if(argString == "") {
 		return "";
 	}
-	else {
-		std::string returnString = "";
-		char mostRecentChar = argString.at(0);
-		int mostRecentCharCount = 1;
+	std::string returnString = "";
+	char mostRecentChar = argString.at(0);
+	int mostRecentCharCount = 0;
 		
-		for(int i = 1; i < argString.length(); i++) {
-			if(mostRecentChar == argString.at(i)) {
-				mostRecentCharCount++;
-			}
-			else {
-				// characters don't match
-				returnString += mostRecentChar + std::to_string(mostRecentCharCount);
-				mostRecentChar = argString.at(i);
-				mostRecentCharCount = 1;
-			}
-		}
-
-		mostRecentCharCount++;
-		returnString += (mostRecentChar) + std::to_string(mostRecentCharCount);	  
-	  
-		if(returnString.length() <= argString.length()) {
-			return returnString;
+	for(int i = 1; i < argString.length(); i++) {
+		if(mostRecentChar == argString.at(i)) {
+			mostRecentCharCount++;
 		}
 		else {
-			return argString;
+			// characters don't match
+			if(mostRecentCharCount > 0) {
+				returnString += std::to_string(mostRecentCharCount);
+			}
+			returnString += mostRecentChar;
+			mostRecentChar = argString.at(i);
+			mostRecentCharCount = 0;
 		}
 	}
+
+	mostRecentCharCount++;
+	returnString += std::to_string(mostRecentCharCount) + mostRecentChar;	  
+	  
+	return returnString;
 }
 
 // given a 2d, n by m  matrix, if an index is 0, set the entire column and
