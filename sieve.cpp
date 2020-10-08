@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 	while(sieve.size() < nthPrime) {
 		bool isPrime = true;
 		int sqrt = (int)(std::sqrt(currentNumber)) + 1;
-		for(auto i = sieve.begin(); *i < sqrt; i++) {
+		for(auto i = sieve.begin(); *i < sqrt && isPrime; i++) {
 			isPrime &= (currentNumber % *i) != 0;
 		}
 
