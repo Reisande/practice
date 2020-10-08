@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cfe7d1e3-7839-4634-a140-45ad8ead70c9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/string_questions.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/string_questions.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1fvslhC80aiEzcN1cFvE2IHdRKd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Optiver/1.cpp" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cfe7d1e3-7839-4634-a140-45ad8ead70c9" name="Default Changelist" comment="" />
+      <created>1597110053848</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597110053848</updated>
+      <workItem from="1597110055784" duration="2966000" />
+      <workItem from="1597793693005" duration="5623000" />
+      <workItem from="1597870198580" duration="10414000" />
+      <workItem from="1599505663960" duration="9000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/typescript/lambda_calculus.d.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="705" y="255" key="FileChooserDialogImpl" timestamp="1597892306427">
+      <screen x="0" y="0" width="1920" height="1026" />
+    </state>
+    <state x="705" y="255" key="FileChooserDialogImpl/0.0.1920.1026@0.0.1920.1026" timestamp="1597892306427" />
+    <state x="705" y="1708" key="FileChooserDialogImpl/0.1440.1920.1080/0.0.2560.1440@0.1440.1920.1080" timestamp="1597793707352" />
+    <state x="603" y="205" width="712" height="647" key="search.everywhere.popup" timestamp="1597892468212">
+      <screen x="0" y="0" width="1920" height="1026" />
+    </state>
+    <state x="603" y="205" width="712" height="647" key="search.everywhere.popup/0.0.1920.1026@0.0.1920.1026" timestamp="1597892468212" />
+    <state x="603" y="1656" width="712" height="681" key="search.everywhere.popup/0.1440.1920.1080/0.0.2560.1440@0.1440.1920.1080" timestamp="1597795566523" />
+  </component>
+</project>

@@ -1,2 +1,0 @@
-/home/misha/Documents/Practice/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/misha/Documents/Practice/cmake-build-debug/CMakeFiles/edit_cache.dir
