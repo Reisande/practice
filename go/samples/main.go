@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math"
-
 	"rsc.io/quote"
 )
 
@@ -47,7 +46,7 @@ func split() (x int, y int) {
 }
 
 func needInt(x int) int {
-	return x*10 + 1
+	return (x * 10) + 1
 }
 
 func needFloat(x float64) float64 {
@@ -60,12 +59,41 @@ type Point struct {
 	Y int
 }
 
+// methods can be created on types like so
+// the receiver type determines whether the value is pass by copy or pass by
+// reference
+// the good part about value receivers is that they are immediately thread safe
+func (p Point) DistanceFromOrigin() float64 {
+	return math.Sqrt(float64((p.X * p.X) + (p.Y * p.Y)))
+}
+
+// static methods can be made like so
+func (_ Point) sample() {}
+
 func adder() func(int) int {
 	sum := 0
 	return func(x int) int {
 		sum += x
 		return sum
 	}
+}
+
+// you can make type aliases pretty simply
+type MyFloat float64
+
+type number interface {
+	Square() number
+	Multiply(n number) number
+}
+
+// interfaces are an easy way to achieve polymorphism when multiple structs
+// implement the same sets of functions, for example this square function
+func (f MyFloat) Square() number {
+	return f.Multiply(f)
+}
+
+func (f MyFloat) Multiply(other number) number {
+	return f * f
 }
 
 func main() {
@@ -263,5 +291,9 @@ func main() {
 			neg(-2*i),
 		)
 	}
+
+	var sample number = MyFloat(10.0)
+
+	fmt.Println(sample.Square())
 
 }
